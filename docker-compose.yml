@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.1
+    container_name: Node-db
+    environment:
+      MYSQL_ROOT_PASSWORD: # Enter Your Db pass here
+      MYSQL_DATABASE: # Enter Your Db name here
+      MYSQL_USER: # Enter Your Db User here
+      MYSQL_PASSWORD: # Enter Your Db pass here
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - node-lms-network
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: phpmyadmin
+    environment:
+      PMA_HOST: Node-db
+      MYSQL_ROOT_PASSWORD: # Enter Your Db pass here
+    ports:
+      - "8080:80"
+    depends_on:
+      - mysql
+    networks:
+      - node-lms-network
+
+  node-app:
+    image: node-lms
+    container_name: node-lms-container
+    restart: always
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./Node-LMS/.env
+    depends_on:
+      - mysql
+    networks:
+      - node-lms-network
+
+volumes:
+  mysql_data:
+
+
+networks:
+  node-lms-network:

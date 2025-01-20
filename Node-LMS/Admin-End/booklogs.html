@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="navbar.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <title>Rent Book</title>
+    <style>
+        body {
+          background-color: #f3f3f2;
+          font-family: "Corbel", Times, serif;
+        }
+        table {
+          width: 78%;
+          margin-left: 21%;
+          margin-top: 2%;
+          background-color: #ffffff;
+          border-collapse: collapse;
+          box-shadow: 0 2px 15px rgba(64, 64, 64, 0.2);
+          border-radius: 12px 12px 0 0;
+          overflow: hidden;
+        }
+        th, td {
+          padding: 12px 15px;
+          text-align: center;
+        }
+        th {
+          background-color: #4a6896;
+          color: #ffffff;
+          font-family: "Corbel", Times, serif;
+          text-transform: uppercase;
+        }
+        tr:nth-child(even) {
+          background-color: #f3f3f2;
+        }
+      </style>
+</head>
+<body>
+    <h3 style="font-size:20px;margin-left:0.5%;">Admin Site</h3>
+    <div class="navbar">
+    <a style="float: right; color: white; padding: 14px 16px; text-decoration: none;" id="logoutButton">Logout</a>
+    </div>
+
+    <div id="sidebar">
+    <div class="links">
+        <br>
+        <a href="Addbook.html">Add a Book</a>
+        <br><br>
+        <a href="Inventory.html">Book's Inventory</a>
+        <br><br>
+        <a href="booklogs.html">Book Logs</a>
+    </div>    
+    </div>
+
+    <h2 style="margin-left:21%;"> RentBook Log's: </h2>
+    <div id="content">
+        <div class="container my-4">
+            <table class="table" id="myTable">
+                <thead>
+                    <tr>
+                        <th scope="col">Book ID</th>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Duration(Days)</th>
+                        <th scope="col">purpose</th>
+                        <th scope="col">Time</th>
+                    </tr>
+                </thead>
+                <tbody id="bookTableBody">
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/booklogs')
+                .then(response => response.json())
+                .then(books => {
+                    const tableBody = document.getElementById('bookTableBody');
+                    books.forEach(book => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${book.book_id}</td>
+                            <td>${book.user_id}</td>
+                            <td>${book.username}</td>
+                            <td>${book.duration}</td>
+                            <td>${book.purpose}</td>
+                            <td>${book.time}</td>
+                        `;
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => console.error('Error fetching books:', error));
+        });
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+          $('#logoutButton').on('click', function() {
+            $.ajax({
+              type: 'POST',
+              url: '/logout',
+              success: function() {
+                window.location.href = '/login.html';
+              },
+              error: function() {
+                alert('Error logging out.');
+              }
+            });
+          });
+        });
+      </script>  
+</body>
+</html>

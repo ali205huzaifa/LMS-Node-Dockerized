@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="usersitenavbar.css">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+<h3>User Site</h3>
+<div class="navbar">
+  <a style="float: right; color: white; padding: 14px 16px; text-decoration: none;" id="logoutButton">Logout</a>
+</div>
+
+<div id="sidebar">
+      <br>
+      <a href="Booklist.html">Book's Listing</a>
+      <br><br>
+      <a href="Reservedbook.html">Reserved Book's</a>
+</div>
+
+<script>
+  $(document).ready(function() {
+    $('#logoutButton').on('click', function() {
+      $.ajax({
+        type: 'POST',
+        url: '/logout',
+        success: function() {
+          window.location.href = '/login.html';
+        },
+        error: function() {
+          alert('Error logging out.');
+        }
+      });
+    });
+  });
+</script>
+
+</body>
+</html>

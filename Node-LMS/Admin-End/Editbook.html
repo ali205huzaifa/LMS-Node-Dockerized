@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Book</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        .form-control, .form-control-file {
+            width: 20%; 
+        }
+        form {
+            padding-top: 20px;
+        }
+        .container{
+            margin-left: 42%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Edit Book Entry</h2>
+        <form id="editBookForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="BookName">Book Name:</label>
+                <input type="text" class="form-control" id="BookName" name="BookName" required>
+            </div>
+            <div class="form-group">
+                <label for="Author">Author:</label>
+                <input type="text" class="form-control" id="Author" name="Author" required>
+            </div>
+            <div class="form-group">
+                <label for="Category">Category:</label>
+                <input type="text" class="form-control" id="Category" name="Category" required>
+            </div>
+            <div class="form-group">
+                <label for="Bookpic">Bookpic:</label>
+                <input type="file" class="form-control-file" id="Bookpic" name="Bookpic" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Update </button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const bookId = urlParams.get('id');
+
+            fetch(`/books/${bookId}`)
+                .then(response => response.json())
+                .then(book => {
+                    document.getElementById('BookName').value = book.BookName;
+                    document.getElementById('Author').value = book.Author;
+                    document.getElementById('Category').value = book.Category;
+                })
+                .catch(error => console.error('Error:', error));
+
+                document.getElementById('editBookForm').addEventListener('submit', function (event) {
+                    event.preventDefault();
+
+                    const formData = new FormData(this);
+
+                    fetch(`/books/${bookId}`, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Book updated successfully!');
+                            window.location.href = 'Inventory.html';
+                        } else {
+                            alert('Failed to update the book.');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+                });
+            });
+    </script>
+</body>
+</html>

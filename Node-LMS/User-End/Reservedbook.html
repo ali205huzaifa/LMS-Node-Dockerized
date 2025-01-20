@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rent Book</title>
+    <link rel="stylesheet" href="usersitenavbar.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+        body {
+          background-color: #f3f3f2;
+          font-family: "Corbel", Times, serif;
+        }
+        table {
+          width: 78%;
+          margin-left: 21%;
+          margin-top: 2%;
+          background-color: #ffffff;
+          border-collapse: collapse;
+          box-shadow: 0 2px 15px rgba(64, 64, 64, 0.2);
+          border-radius: 12px 12px 0 0;
+          overflow: hidden;
+        }
+        th, td {
+          padding: 12px 15px;
+          text-align: center;
+        }
+        th {
+          background-color: #4a6896;
+          color: #ffffff;
+          font-family: "Corbel", Times, serif;
+          text-transform: uppercase;
+        }
+        tr:nth-child(even) {
+          background-color: #f3f3f2;
+        }
+      </style>
+</head>
+<body>
+    <h3>User Site</h3>
+    <div class="navbar">
+    <a style="float: right; color: white; padding: 14px 16px; text-decoration: none;" id="logoutButton">Logout</a>
+    </div>
+
+    <div id="sidebar">
+        <br>
+        <a href="Booklist.html">Book's Listing</a>
+        <br><br>
+        <a href="Reservedbook.html">Reserved Book's</a>
+    </div>
+    <div id="content">
+        <div class="container my-4">
+            <table class="table" id="myTable">
+                <thead>
+                    <tr>
+                        <th scope="col">Book ID</th>
+                        <th scope="col">User ID</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Duration(Days)</th>
+                        <th scope="col">purpose</th>
+                        <th scope="col">Time</th>
+                    </tr>
+                </thead>
+                <tbody id="bookTableBody">
+                
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/Reservedbooks')
+                .then(response => response.json())
+                .then(data => {
+                    if (Array.isArray(data)) {
+                        const tableBody = document.getElementById('bookTableBody');
+                        data.forEach(book => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                                <td>${book.book_id}</td>
+                                <td>${book.user_id}</td>
+                                <td>${book.username}</td>
+                                <td>${book.duration}</td>
+                                <td>${book.purpose}</td>
+                                <td>${book.time}</td>
+                            `;
+                            tableBody.appendChild(row);
+                        });
+                    } else if (data.message) {
+                        console.error('Error:', data.message);
+                        alert('You are not logged in. Please log in to view your reserved books.');
+                        window.location.href = '/login';
+                    } else {
+                        console.error('Unexpected response:', data);
+                    }
+                })
+                .catch(error => console.error('Error fetching books:', error));
+            });
+    </script>
+    
+    <script>
+        $(document).ready(function() {
+          $('#logoutButton').on('click', function() {
+            $.ajax({
+              type: 'POST',
+              url: '/logout',
+              success: function() {
+                window.location.href = '/login.html';
+              },
+              error: function() {
+                alert('Error logging out.');
+              }
+            });
+          });
+        });
+      </script>  
+</body>
+</html>

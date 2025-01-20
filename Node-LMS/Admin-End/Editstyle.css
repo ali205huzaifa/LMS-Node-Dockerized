@@ -1,0 +1,96 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Corbel", Times, serif;
+  }
+  body{
+    background-color:#f3f3f2;
+  }
+  .wrapper{
+    margin-left:32.5%;
+    width: 350px;
+    background-color: #f3f3f2;
+    border-radius: 12px;
+    padding: 4px 40px;
+  }
+  .wrapper h3{
+    margin-top:5%;
+    text-align: left;
+    color:#404040;
+  }
+  .wrapper .input-box{
+    position: relative;
+    width: 90%;
+    height: 25px;
+    margin: 25px 15px;
+  }
+  .input-box input{
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 1px solid #b3b3b3;
+    border-radius: 3px;
+    font-size: 16px;
+    color: #404040;
+    padding: 15px 30px 15px 15px;
+  }
+  .input-box input::placeholder{
+    color:#404040;
+  }
+  .input-box i{
+    position: absolute;
+    right: 20px;
+    top: 35%;
+    transform: translate(-50%);
+    font-size: 20px;
+  
+  }
+  .wrapper #btn{
+    margin-top:5%;
+    width: 30%;
+    height: 40px;
+    background-color: #435e87;
+    border: none;
+    outline: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 16px;
+    color: white;
+    font-weight: 600;
+  }
+  #btn:hover {
+    background-color: #344969;
+  }
+  .wrapper .register-link{
+    font-size: 14.5px;
+    text-align: center;
+    margin: 20px 0 15px;
+  
+  }
+  .register-link p a{
+    color: #404040;
+    text-decoration: none;
+    font-weight: 600;
+  }
+  .register-link p a:hover{
+    text-decoration: underline;
+  }
+  #Err{
+    text-align:center;
+    color:red;
+    margin-top:2%;
+    font-size:22px;
+  }
+  #success{
+    text-align:center;
+    color:green;
+    margin-top:2%;
+    font-size:22px;
+  }
+  #Is_active{
+    margin-top:5%;
+    
+  }

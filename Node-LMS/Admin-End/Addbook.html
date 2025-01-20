@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="navbar.css">
+    <link rel="stylesheet" href="Addstyles.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Add Book</title>
+</head>
+<body>
+  
+<h3 style="font-size:20px;margin-left:0.5%;">Admin Site</h3>
+<div class="navbar">
+  <a style="float: right; color: white; padding: 14px 16px; text-decoration: none;" id="logoutButton">Logout</a>
+</div>
+
+<div id="sidebar">
+  <div class="links">
+      <br>
+      <a href="Addbook.html">Add a Book</a>
+      <br><br>
+      <a href="Inventory.html">Book's Inventory</a>
+      <br><br>
+      <a href="booklogs.html">Book Logs</a>
+  </div>    
+</div>
+    <div id="message" class="mt-3"></div>
+    <div class="wrapper">
+        <h4 style="margin-left:3.5%;">Add Book</h4>
+        <form id="addBookForm" enctype="multipart/form-data">
+            <div class="input-box">
+                <input type="text" id="BookName" name="BookName" placeholder="Enter Book Name" minlength="5" required>
+            </div>
+            <div class="input-box">
+                <input type="text" id="Author" name="Author" placeholder="Enter Author" minlength="5" required>
+            </div>
+            <div class="input-box">
+                <input type="text" id="Category" name="Category" placeholder="Enter Category" minlength="5" required>
+            </div>
+            <div>
+                <input type="file" id="Bookpic" name="Bookpic" required>
+            </div>
+            <button type="submit" class="btn">Save</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+      $(document).ready(function() {
+        $('#addBookForm').on('submit', function(e) {
+          e.preventDefault();
+
+          var formData = new FormData(this);
+          
+          $.ajax({
+            type: 'POST',
+            url: '/Addbook',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function(response) {
+              $('#message').text(response).addClass('alert alert-success');
+              $('#addBookForm')[0].reset();
+            },
+            error: function(xhr) {
+              $('#message').text(xhr.responseText).addClass('alert alert-danger');
+            }
+          });
+        });
+      });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+        $('#logoutButton').on('click', function() {
+            $.ajax({
+            type: 'POST',
+            url: '/logout',
+            success: function() {
+                window.location.href = '/login.html';
+            },
+            error: function() {
+                alert('Error logging out.');
+            }
+          });
+       });
+    });
+  </script>
+
+</body>
+</html>
